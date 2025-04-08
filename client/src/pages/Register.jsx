@@ -1,6 +1,10 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
+  const navigate = useNavigate();
   const [data, setData] = useState({
     namaLengkap: "",
     userName: "",
@@ -10,8 +14,37 @@ export default function Register() {
     alamat: "",
     pekerjaan: "",
   });
-  const registerUser = (e) => {
+  const registerUser = async (e) => {
     e.preventDefault();
+    const {
+      namaLengkap,
+      userName,
+      email,
+      password,
+      jenisKelamin,
+      alamat,
+      pekerjaan,
+    } = data;
+    try {
+      const { data } = await axios.post("/register", {
+        namaLengkap,
+        userName,
+        email,
+        password,
+        jenisKelamin,     
+        alamat,
+        pekerjaan,
+      });
+      if (data.error) {
+        toast.error(data.error);
+      } else {
+        setData({});
+        toast.success("Selamat Anda Berhasil Mendaftar");
+        navigate("/login");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <>
@@ -66,6 +99,7 @@ export default function Register() {
             value={data.jenisKelamin}
             onChange={(e) => setData({ ...data, jenisKelamin: e.target.value })}
           >
+            <option value="">Pilih Jenis Kelamin</option>
             <option value="laki-laki">Laki-laki</option>
             <option value="perempuan">Perempuan</option>
           </select>

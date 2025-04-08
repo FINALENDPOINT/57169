@@ -1,17 +1,33 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const navigate = useNavigate();
   const [data, setData] = useState({
     userName: "",
     password: "",
   });
-  const loginUser = (e) => {
+  const loginUser = async (e) => {
     e.preventDefault();
-    axios
-      .get("/")
-      .then((response) => console.log(response.data))
-      .catch((error) => console.error("Error saat login:", error));
+    const { userName, password } = data;
+    try {
+      const { data } = await axios.post("/login", {
+        userName,
+        password,
+      });
+      if (data.error) {
+        toast.error(data.error);
+      } else {
+        setData({});
+        navigate("/");
+        toast.success("Login berhasil!");
+      }
+    } catch (error) {
+      toast.error("Terjadi kesalahan saat login.");
+      console.error("Error during login:", error);
+    }
   };
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -24,7 +40,7 @@ export default function Login() {
         <label className="block mb-2">Username</label>
         <input
           type="text"
-          name="username"
+          name="userName"
           className="w-full p-2 border border-gray-300 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
           value={data.userName}
           onChange={(e) => setData({ ...data, userName: e.target.value })}
