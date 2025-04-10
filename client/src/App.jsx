@@ -4,7 +4,9 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-import Berita from "./pages/Berita";
+import Student_News from "./pages/Student_News/Student_News";
+import Suara_Unteyo_Mahasiswa from "./pages/Suara_Unteyo_Mahasiswa/Suara_Unteyo_Mahasiswa"
+import Youtube from "./pages/Youtube/Youtube"
 import axios from "axios";
 import { Toaster } from "react-hot-toast";
 
@@ -19,8 +21,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/register" element={<Register />}></Route>
-        <Route path="/berita" element={<Berita />}></Route>
         <Route path="/login" element={<Login />}></Route>
+        <Route path="/StudentNews" element={<Student_News />}></Route>
+        <Route path="/SuaraUnteyo&Mahasiswa" element={<Suara_Unteyo_Mahasiswa/>}></Route>
+        <Route path="/Youtube" element={<Youtube/>}></Route>
       </Routes>
     </>
   );

@@ -1,16 +1,16 @@
 const mongoose = require("mongoose");
-const { Schema } = mongoose;
 
-const newsSchema = new Schema({
-  kategori: String,
-  judul: String,
-  gambar: String,
-  tim_redaksi: String,
-  tagar: [String],
-  sumber: String,
-  tanggal: Date,
+const Student_News_Schema = mongoose.Schema({
+    kategori : {type: String, required: true},
+    judul: {type: String, required: true, unique: true},
+    gambar: {type: String, required: true},
+    teks: {type: [String], required: true},
+    tanggal: {type: Date, default: Date.now},
+    tim_redaksi: {type: String, required: true},
+    tagar: {type: [String], required: true},
+    sumber: {type: String, required: true},
 });
 
-const NewsModel = mongoose.model("News", newsSchema);
+const Student_News_Model = mongoose.model("News", Student_News_Schema);
 
-module.exports = NewsModel;
+module.exports = Student_News_Model;
