@@ -11,6 +11,4 @@ const Student_News_Schema = mongoose.Schema({
     sumber: {type: String, required: true},
 });
 
-const Student_News_Model = mongoose.model("News", Student_News_Schema);
-
-module.exports = Student_News_Model;
+module.exports = mongoose.model('Student_News_Schema', Student_News_Schema);

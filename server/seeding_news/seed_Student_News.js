@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Student_News = require("../models/news");
+const Student_News_Schema = require("../models/news");
 
 router.get('/seed', async (req, res) => {
     const sampleSeed = [{
@@ -36,8 +36,8 @@ router.get('/seed', async (req, res) => {
 ]
 
 try {
-    const existingNews = await Student_News.findOne({judul: sampleSeed.judul})
-    const newNews = await Student_News.insertMany(sampleSeed)
+    const existingNews = await Student_News_Schema.findOne({judul: sampleSeed.judul})
+    const newNews = await Student_News_Schema.insertMany(sampleSeed)
 
     if (existingNews) {
         return res.status(200).json({
