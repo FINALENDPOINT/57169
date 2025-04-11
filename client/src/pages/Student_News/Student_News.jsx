@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import axios from "axios"
+import { useParams } from "react-router-dom"
+import Student_News_Navbar from './Student_News_Navbar'
 
 function Student_News() {
+  const { category } = useParams()
   const [news, setNews] = useState();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+
+    const endpoint = category ? `http://localhost:8000/StudentNews?category=${category.toLowerCase()}` : "http://localhost:8000/StudentNews"
+
     axios
-    .get('http://localhost:8000/StudentNews')
+    .get(endpoint)
     .then((response) => {
       setNews(response.data)
       setLoading(false)
@@ -24,16 +30,20 @@ function Student_News() {
 
   return (
     <div>
+      <Student_News_Navbar/>
+      <h1>{category ? category : "Semua"}</h1>
+      <div className='flex flex-row w-[auto] h-[auto] overflow-x-scroll'>
       {news.map((item, index) => (
-        <li key={index}>
-          <img src={item.gambar}></img>
+        <li key={index} className="flex flex-row w-[500px] shrink-[0]">
+          <img src={item.gambar} className='w-[100px] h-[100px]'></img>
           <div>
-            <h3>{item.judul}</h3>
-            <p>{item.kateori}</p>
+            <h3 className='text-[20px]'>{item.judul}</h3>
+            <p>{item.kategori}</p>
             <p>{item.tanggal}</p>
           </div>
         </li>
       ))}
+    </div>
     </div>
   )
 }

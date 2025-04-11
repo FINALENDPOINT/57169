@@ -16,6 +16,24 @@
   }
 }
 
+@font-face {
+  font-family: Helvetica;
+  src: url('./assets/helvetica-255-webfont/Helvetica.woff');
+}
+
+@font-face {
+  font-family: HelveticaBold;
+  src: url('./assets/helvetica-255-webfont/Helvetica-Bold.woff');
+}
+
+.Helvetica {
+  font-family: Helvetica;
+}
+
+.HelveticaBold {
+  font-family: HelveticaBold;
+}
+
 .animate-blob {
   animation: blob 7s infinite;
 }

@@ -2,38 +2,102 @@ const express = require('express');
 const router = express.Router();
 const Student_News_Schema = require("../models/news");
 
+// https://raw.githubusercontent.com/farhandwk/UnteyoNews/6bcabf9486b290a4c32087e213e09383d5241e59/fajar.png
+
 router.get('/seed', async (req, res) => {
-    const sampleSeed = [{
-        kategori: "Coli",
-        judul: "Colikiawan Mendunia",
-        gambar: "https://github.com/farhandwk/UnteyoNews/blob/12f376ef2112ca0d21086690c2f79f1d910b2659/Post1.png",
-        teks: [
-            "Komunitas pecinta kolibri, yang dikenal dengan sebutan Colikiawan, semakin mendunia berkat keindahan dan keunikan burung kolibri yang menjadi objek perhatian banyak orang. Dalam beberapa tahun terakhir, Colikiawan telah berhasil mengorganisir berbagai acara internasional, termasuk festival burung kolibri di beberapa negara. Acara ini tidak hanya menarik para penggemar dari dalam negeri tetapi juga peserta dari luar negeri yang ingin berbagi pengetahuan dan pengalaman tentang perawatan serta pelestarian spesies ini.",
-            "Selain itu, Colikiawan juga aktif dalam kampanye konservasi untuk melindungi habitat alami kolibri yang semakin terancam oleh perubahan iklim dan urbanisasi. Melalui program edukasi dan kerja sama dengan lembaga lingkungan hidup, komunitas ini berupaya meningkatkan kesadaran masyarakat akan pentingnya menjaga keberadaan burung kolibri di alam liar. Dengan semangat kolektif dan dedikasi tinggi, Colikiawan terus memperluas jangkauan mereka di kancah internasional sambil tetap menjaga nilai-nilai lokal dalam pelestarian satwa langka ini."
-        ],
-        tim_redaksi: "AtunNews",
-        tagar: [
-            "colikiawan",
-            "coliin2025"
-        ]
-        ,sumber: "bandar bokep"
-    },
-    {
-        kategori: "Bokep Jepang",
-        judul: "Bokep Jepang Mendunia",
-        gambar: "https://github.com/farhandwk/UnteyoNews/blob/12f376ef2112ca0d21086690c2f79f1d910b2659/Post2.png", 
-        teks: [
-            "Industri film dewasa Jepang, atau yang lebih dikenal dengan sebutan bokep, telah menjadi fenomena global dalam beberapa tahun terakhir. Dengan berbagai genre dan gaya produksi yang unik, bokep Jepang menarik perhatian banyak penonton di seluruh dunia. Platform streaming internasional kini mulai menampilkan konten-konten dari industri ini, menjadikannya salah satu produk budaya pop yang paling banyak dicari. Meskipun kontroversial, popularitasnya menunjukkan bahwa ada permintaan besar untuk variasi dalam hiburan dewasa.",
-            "Namun, keberadaan bokep Jepang juga memicu perdebatan mengenai etika dan dampaknya terhadap masyarakat. Banyak kritikus berargumen bahwa representasi perempuan dalam film-film tersebut sering kali tidak realistis dan dapat memperkuat stereotip negatif. Di sisi lain, pendukungnya berpendapat bahwa industri ini memberikan kebebasan berekspresi bagi para artis dan produsernya. Dengan meningkatnya kesadaran akan isu-isu sosial terkait pornografi, diskusi tentang bokep Jepang terus berkembang di kalangan akademisi dan aktivis di seluruh dunia."
-        ],
-        tim_redaksi: "AtunNews",
-        tagar: [
-            "bokep jepang",
-            "jav"
-        ],
-        sumber: "bandar bokep"
-    }
-]
+    const sampleSeed = [
+        {
+          "kategori": "sosial",
+          "judul": "Aksi Sosial Membawa Harapan Baru",
+          "gambar": "https://raw.githubusercontent.com/farhandwk/UnteyoNews/6bcabf9486b290a4c32087e213e09383d5241e59/fajar.png",
+          "teks": "Sejumlah relawan berkumpul untuk membantu korban banjir yang melanda beberapa wilayah. Mereka berhasil mendistribusikan bantuan berupa makanan, pakaian, dan obat-obatan.\nGerakan sosial ini tidak hanya meringankan beban korban, tetapi juga menginspirasi banyak pihak untuk bergabung dan berkontribusi.",
+          "tim_redaksi": "Redaksi Sosial Times",
+          "tagar": ["#AksiSosial", "#Relawan"],
+          "sumber": "Sosial Times"
+        },
+        {
+          "kategori": "hiburan",
+          "judul": "Film Blockbuster Baru Raih Rekor Penonton",
+          "gambar": "https://raw.githubusercontent.com/farhandwk/UnteyoNews/6bcabf9486b290a4c32087e213e09383d5241e59/fajar.png",
+          "teks": "Film terbaru dari sutradara ternama berhasil memecahkan rekor penonton di seluruh bioskop nasional. Film ini dipuji karena alur cerita yang menarik dan efek visual yang luar biasa.\nPara pemain juga mendapatkan banyak apresiasi atas akting mereka yang memukau, membuat film ini menjadi favorit sepanjang tahun.",
+          "tim_redaksi": "Redaksi Hiburan Now",
+          "tagar": ["#FilmBaru", "#Blockbuster"],
+          "sumber": "Hiburan Now"
+        },
+        {
+          "kategori": "bisnis",
+          "judul": "Startup Teknologi Lokal Dapat Pendanaan Baru",
+          "gambar": "https://raw.githubusercontent.com/farhandwk/UnteyoNews/6bcabf9486b290a4c32087e213e09383d5241e59/fajar.png",
+          "teks": "Sebuah startup teknologi asal Indonesia berhasil mendapatkan pendanaan dari investor internasional. Hal ini membuka peluang untuk ekspansi bisnis ke pasar global.\nLangkah ini menjadi bukti bahwa inovasi lokal mampu bersaing di dunia internasional dan meningkatkan ekonomi digital di tanah air.",
+          "tim_redaksi": "Redaksi Bisnis Pro",
+          "tagar": ["#StartupTeknologi", "#Pendanaan"],
+          "sumber": "Bisnis Pro"
+        },
+        {
+          "kategori": "lifestyle",
+          "judul": "Tips Hidup Sehat di Era Modern",
+          "gambar": "https://raw.githubusercontent.com/farhandwk/UnteyoNews/6bcabf9486b290a4c32087e213e09383d5241e59/fajar.png",
+          "teks": "Hidup sehat menjadi perhatian utama di tengah gaya hidup modern yang serba cepat. Salah satu cara untuk tetap sehat adalah dengan mengatur pola makan dan rutin berolahraga.\nSelain itu, penting untuk meluangkan waktu untuk relaksasi demi menjaga kesehatan mental agar tetap optimal.",
+          "tim_redaksi": "Redaksi Lifestyle Today",
+          "tagar": ["#HidupSehat", "#TipsKesehatan"],
+          "sumber": "Lifestyle Today"
+        },
+        {
+          "kategori": "olahraga",
+          "judul": "Tim Nasional Menangkan Turnamen Internasional",
+          "gambar": "https://raw.githubusercontent.com/farhandwk/UnteyoNews/6bcabf9486b290a4c32087e213e09383d5241e59/fajar.png",
+          "teks": "Tim nasional berhasil membawa pulang trofi dari turnamen internasional bergengsi. Kemenangan ini diraih berkat kerja keras para pemain dan dukungan dari masyarakat.\nKeberhasilan ini menjadi kebanggaan bagi negara dan meningkatkan semangat olahraga di kalangan generasi muda.",
+          "tim_redaksi": "Redaksi Sport Center",
+          "tagar": ["#KemenanganTimnas", "#TurnamenInternasional"],
+          "sumber": "Sport Center"
+        },
+        {
+            "kategori": "sosial",
+            "judul": "Komunitas Lokal Luncurkan Program Edukasi Gratis",
+            "gambar": "https://raw.githubusercontent.com/farhandwk/UnteyoNews/6bcabf9486b290a4c32087e213e09383d5241e59/fajar.png",
+            "teks": "Komunitas lokal meluncurkan program edukasi gratis bagi anak-anak kurang mampu. Program ini meliputi kursus teknologi, seni, dan keterampilan dasar.\nInisiatif ini bertujuan untuk memberikan peluang pendidikan yang lebih merata dan memperbaiki kualitas hidup masyarakat.",
+            "tim_redaksi": "Redaksi Sosial Community",
+            "tagar": ["#PendidikanGratis", "#KomunitasLokal"],
+            "sumber": "Sosial Community"
+          },
+          {
+            "kategori": "hiburan",
+            "judul": "Festival Musik Meriahkan Kota Besar",
+            "gambar": "https://raw.githubusercontent.com/farhandwk/UnteyoNews/6bcabf9486b290a4c32087e213e09383d5241e59/fajar.png",
+            "teks": "Festival musik tahunan menghadirkan berbagai artis terkenal untuk menghibur ribuan penonton. Acara ini dilengkapi dengan berbagai kegiatan seni dan kuliner.\nAntusiasme masyarakat terhadap festival ini menunjukkan tingginya minat akan budaya hiburan yang dinamis.",
+            "tim_redaksi": "Redaksi Hiburan Blast",
+            "tagar": ["#FestivalMusik", "#HiburanKota"],
+            "sumber": "Hiburan Blast"
+          },
+          {
+            "kategori": "bisnis",
+            "judul": "Perusahaan Lokal Ekspansi ke Pasar Asia Tenggara",
+            "gambar": "https://raw.githubusercontent.com/farhandwk/UnteyoNews/6bcabf9486b290a4c32087e213e09383d5241e59/fajar.png",
+            "teks": "Perusahaan teknologi lokal mengumumkan rencana ekspansi ke pasar Asia Tenggara. Langkah ini dilakukan untuk meningkatkan pangsa pasar dan memperluas jaringan internasional.\nEkspansi ini diharapkan membawa dampak positif bagi ekonomi lokal sekaligus membuka peluang kerja baru.",
+            "tim_redaksi": "Redaksi Bisnis Asia",
+            "tagar": ["#EkspansiBisnis", "#PasarGlobal"],
+            "sumber": "Bisnis Asia"
+          },
+          {
+            "kategori": "lifestyle",
+            "judul": "Menciptakan Ruang Kerja Nyaman di Rumah",
+            "gambar": "https://raw.githubusercontent.com/farhandwk/UnteyoNews/6bcabf9486b290a4c32087e213e09383d5241e59/fajar.png",
+            "teks": "Ruang kerja di rumah menjadi semakin penting di era kerja jarak jauh. Desain yang nyaman dan fungsional dapat meningkatkan produktivitas.\nTips seperti memilih furnitur ergonomis dan pencahayaan yang baik menjadi solusi bagi para pekerja modern.",
+            "tim_redaksi": "Redaksi Lifestyle Interiors",
+            "tagar": ["#WorkFromHome", "#DesainInterior"],
+            "sumber": "Lifestyle Interiors"
+          },
+          {
+            "kategori": "olahraga",
+            "judul": "Atlet Muda Raih Medali di Kejuaraan Dunia",
+            "gambar": "https://raw.githubusercontent.com/farhandwk/UnteyoNews/6bcabf9486b290a4c32087e213e09383d5241e59/fajar.png",
+            "teks": "Seorang atlet muda Indonesia berhasil memenangkan medali di ajang kejuaraan dunia. Prestasi ini diraih berkat dedikasi dan latihan keras selama bertahun-tahun.\nKeberhasilan ini menjadi inspirasi bagi generasi muda untuk terus mengejar impian di bidang olahraga.",
+            "tim_redaksi": "Redaksi Sport Heroes",
+            "tagar": ["#PrestasiOlahraga", "#AtletMuda"],
+            "sumber": "Sport Heroes"
+          }
+      ]
+      
 
 try {
     const existingNews = await Student_News_Schema.findOne({judul: sampleSeed.judul})
