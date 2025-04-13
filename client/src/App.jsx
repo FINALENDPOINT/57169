@@ -30,7 +30,8 @@ function App() {
         <Route path="/register" element={<Register />}></Route>
         <Route path="/login" element={<Login />}></Route>
         {/* Menu */}
-        <Route path="/StudentNews" element={<Student_News />}></Route>
+        <Route path="/StudentNews/category" element={<Student_News />}></Route>
+        <Route path="/StudentNews/category?category=Sosial" element={<Student_News />}></Route>
         <Route path="/SuaraUnteyo&Mahasiswa" element={<Suara_Unteyo_Mahasiswa/>}></Route>
         <Route path="/Youtube" element={<Youtube/>}></Route>
         {/* StudentNews */}

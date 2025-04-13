@@ -5,10 +5,13 @@ const News = require("../models/news"); // Pastikan path model disesuaikan
 // Route dengan parameter dinamis 'category'
 // Jika diakses: /StudentNews/Sosial, maka req.params.category akan bernilai "Sosial"
 // Jika parameter tidak diberikan, misalnya hanya /StudentNews, maka akan mengembalikan semua berita
-router.get("/StudentNews/:category?", async (req, res) => {
-  const { category } = req.params;
-  // Jika kategori diberikan, filter berita berdasarkan kategori (dikonversi ke lowercase untuk konsistensi)
+router.get("/category", async (req, res) => {
+  const category = req.query.category;
+  // // Jika kategori diberikan, filter berita berdasarkan kategori (dikonversi ke lowercase untuk konsistensi)
   const query = category ? { kategori: category.toLowerCase() } : {};
+
+  console.log(`nilai kategory:${category}`)
+  console.log(`nilai kategori:${query}`)
 
   try {
     const newsData = await News.find(query);

@@ -11,7 +11,9 @@ function Student_News() {
 
   useEffect(() => {
 
-    const endpoint = category ? `http://localhost:8000/StudentNews?category=${category.toLowerCase()}` : "http://localhost:8000/StudentNews"
+    const endpoint = category ? `http://localhost:8000/StudentNews/category?category=${category.toLowerCase()}` : "http://localhost:8000/StudentNews/category"
+
+    console.log(endpoint)
 
     axios
     .get(endpoint)
@@ -31,7 +33,6 @@ function Student_News() {
   return (
     <div>
       <Student_News_Navbar/>
-      <h1>{category ? category : "Semua"}</h1>
       <div className='flex flex-row w-[auto] h-[auto] overflow-x-scroll'>
       {news.map((item, index) => (
         <li key={index} className="flex flex-row w-[500px] shrink-[0]">
