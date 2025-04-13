@@ -3,11 +3,11 @@ import { Link } from "react-router-dom"
 
 function Student_News_Navbar() {
     const categories = [
-        {"name": "Sosial", "path": "/StudentNews/Sosial"},
-        {"name": "Hiburan", "path": "/StudentNews/Hiburan"},
-        {"name": "Bisnis", "path": "/StudentNews/Bisnis"},
-        {"name": "Lifestyle", "path": "/StudentNews/Lifestyle"},
-        {"name": "Olaharga", "path": "/StudentNews/Olahraga"}
+        {"name": "Sosial", "path": "/StudentNews/category?category=Sosial"},
+        {"name": "Hiburan", "path": "/StudentNews/category?category=Hiburan"},
+        {"name": "Bisnis", "path": "/StudentNews/category?category=Bisnis"},
+        {"name": "Lifestyle", "path": "/StudentNews/category?category=Lifestyle"},
+        {"name": "Olaharga", "path": "/StudentNews/category?category=Olahraga"}
     ]
 
   return (

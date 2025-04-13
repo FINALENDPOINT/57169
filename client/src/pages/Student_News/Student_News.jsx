@@ -1,19 +1,28 @@
 import React, { useState, useEffect } from 'react'
 import axios from "axios"
-import { useParams } from "react-router-dom"
+import { useLocation } from "react-router-dom"
 import Student_News_Navbar from './Student_News_Navbar'
 
+function useQuery() {
+  return new URLSearchParams(useLocation().search)
+}
+
 function Student_News() {
-  const { category } = useParams()
+  const query = useQuery()
+  const category = query.get("category")
   const [news, setNews] = useState();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  
 
   useEffect(() => {
+  const endpoint =
+  category && category.trim() !== ""
+    ? `http://localhost:8000/StudentNews/category?category=${category.toLowerCase()}`
+    : `http://localhost:8000/StudentNews/category`;
 
-    const endpoint = category ? `http://localhost:8000/StudentNews/category?category=${category.toLowerCase()}` : "http://localhost:8000/StudentNews/category"
-
-    console.log(endpoint)
+  console.log(`nilai kategori: ${category}`)
+  console.log(`nilai endpoint: ${endpoint}`)
 
     axios
     .get(endpoint)
@@ -25,7 +34,7 @@ function Student_News() {
       setError(error.response)
       setLoading(false)
     })
-  }, [])
+  }, [category])
     
   if (loading) return <h4>Loading...</h4>;
   if (error) return <h4>Error: {error}</h4>;
@@ -33,6 +42,7 @@ function Student_News() {
   return (
     <div>
       <Student_News_Navbar/>
+      <h1>{category}</h1>
       <div className='flex flex-row w-[auto] h-[auto] overflow-x-scroll'>
       {news.map((item, index) => (
         <li key={index} className="flex flex-row w-[500px] shrink-[0]">

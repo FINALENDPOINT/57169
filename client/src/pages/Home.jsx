@@ -6,7 +6,7 @@ export default function Home() {
     <div>
       <h1>Home Page</h1>
       <section className="flex flex-col">
-        <Link to="/StudentNews">Student_News</Link>
+        <Link to="/StudentNews/category">Student_News</Link>
         <Link to="/SuaraUnteyo&Mahasiswa">Suara Unteyo & Mahasiswa</Link>
         <Link to="/Youtube">Youtube</Link>
       </section>
