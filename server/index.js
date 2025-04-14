@@ -18,6 +18,7 @@ app.use("/", require("./routes/newsRouter"))
 const Student_News_Seed = require("./seeding_news/seed_Student_News")
 app.use("/StudentNews", Student_News_Seed)
 app.use("/StudentNews", require("./routes/newsRouter_Category"))
+app.use("/StudentNews", require("./routes/newsRouter_Article"))
 
 const port = process.env.PORT || 8000;
 app.listen(port, () => console.log(`Server is running on port ${port}`));
