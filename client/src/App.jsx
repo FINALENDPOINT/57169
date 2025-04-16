@@ -6,6 +6,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Student_News from "./pages/Student_News/Student_News";
 import Suara_Unteyo_Mahasiswa from "./pages/Suara_Unteyo_Mahasiswa/Suara_Unteyo_Mahasiswa"
+import Student_News_Article from "./pages/Student_News/Student_News_Article"
 import Youtube from "./pages/Youtube/Youtube"
 import axios from "axios";
 import Sosial from "./pages/Student_News/kategori/Sosial"
@@ -32,6 +33,7 @@ function App() {
         {/* Menu */}
         <Route path="/StudentNews/category" element={<Student_News />}></Route>
         <Route path="/StudentNews/category?category=Sosial" element={<Student_News />}></Route>
+        <Route path="/StudentNews/article" element={<Student_News_Article/>}></Route>
         <Route path="/SuaraUnteyo&Mahasiswa" element={<Suara_Unteyo_Mahasiswa/>}></Route>
         <Route path="/Youtube" element={<Youtube/>}></Route>
         {/* StudentNews */}

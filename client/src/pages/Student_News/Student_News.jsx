@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import axios from "axios"
 import { useLocation } from "react-router-dom"
+import { useNavigate } from 'react-router-dom'
 import Student_News_Navbar from './Student_News_Navbar'
 
 function useQuery() {
   return new URLSearchParams(useLocation().search)
 }
+
 
 function Student_News() {
   const query = useQuery()
