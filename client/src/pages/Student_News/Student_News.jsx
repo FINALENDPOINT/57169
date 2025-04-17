@@ -8,13 +8,19 @@ function useQuery() {
   return new URLSearchParams(useLocation().search)
 }
 
-
 function Student_News() {
   const query = useQuery()
   const category = query.get("category")
   const [news, setNews] = useState();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
+
+  const handleArticleCLick = (title) => {
+    const queryTitle = encodeURIComponent(title)
+    navigate(`/StudentNews/article?title=${queryTitle}`)
+  }
   
 
   useEffect(() => {
@@ -47,7 +53,10 @@ function Student_News() {
       <h1>{category}</h1>
       <div className='flex flex-row w-[auto] h-[auto] overflow-x-scroll'>
       {news.map((item, index) => (
-        <li key={index} className="flex flex-row w-[500px] shrink-[0]">
+        <li key={index} className="flex flex-row w-[500px] shrink-[0]"
+        onClick={() => handleArticleCLick(item.judul)}
+        style={{cursor: "pointer"}}
+        >
           <img src={item.gambar} className='w-[100px] h-[100px]'></img>
           <div>
             <h3 className='text-[20px]'>{item.judul}</h3>
