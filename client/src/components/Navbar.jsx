@@ -10,7 +10,7 @@ export default function Navbar() {
     flex flex-row justify-between items-center
     pl-[15px] pr-[20px]'>
       <Link to="/">
-      <img src="https://raw.githubusercontent.com/farhandwk/UnteyoNews/8589a38408d86d794313b5bee227616ef029c515/logo%20unteyo%20hitam.png"
+      <img src="https://raw.githubusercontent.com/UnteyoNews/News/0c79e90fe765d9a004e0bb7122b813d3824ec842/logo%20unteyo.png"
       className='w-[100px]'
       ></img>  
       </Link>
