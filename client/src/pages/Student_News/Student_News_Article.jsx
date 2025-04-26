@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useParams } from 'react-router-dom';
 import axios from "axios"
 
-function useQuery() {
-    return new URLSearchParams(useLocation().search);
-}
-
 function Student_News_Article() {
-    const query = useQuery();
-    const title = query.get("title")
+    const { title } = useParams()
+    const { category } = useParams()
     const [article, setArticle] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
-    console.log(title)
-    console.log(encodeURIComponent(title))
 
     useEffect(() => {
         if(!title) {

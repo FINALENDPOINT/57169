@@ -17,10 +17,9 @@ function Student_News() {
 
   const navigate = useNavigate();
 
-  const handleArticleCLick = (title) => {
-    const queryTitle = encodeURIComponent(title)
-    navigate(`/StudentNews/article?title=${queryTitle}`)
-  }
+  const handleArticleCLick = (category, title) => {
+    navigate(`/StudentNews/${category}/${title}`)
+}
   
 
   useEffect(() => {
@@ -28,9 +27,6 @@ function Student_News() {
   category && category.trim() !== ""
     ? `http://localhost:8000/StudentNews/category?category=${category.toLowerCase()}`
     : `http://localhost:8000/StudentNews/category`;
-
-  console.log(`nilai kategori: ${category}`)
-  console.log(`nilai endpoint: ${endpoint}`)
 
     axios
     .get(endpoint)
@@ -54,7 +50,7 @@ function Student_News() {
       <div className='flex flex-row w-[auto] h-[auto] overflow-x-scroll'>
       {news.map((item, index) => (
         <li key={index} className="flex flex-row w-[500px] shrink-[0]"
-        onClick={() => handleArticleCLick(item.judul)}
+        onClick={() => handleArticleCLick(item.kategori, item.judul)}
         style={{cursor: "pointer"}}
         >
           <img src={item.gambar} className='w-[100px] h-[100px]'></img>
