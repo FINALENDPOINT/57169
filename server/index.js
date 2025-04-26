@@ -20,5 +20,9 @@ app.use("/StudentNews", Student_News_Seed)
 app.use("/StudentNews", require("./routes/newsRouter_Category"))
 app.use("/StudentNews", require("./routes/newsRouter_Article"))
 
+
+const Youtube_seed = require("./seeding_news/seed_Youtube")
+app.use("/Youtube", Youtube_seed)
+
 const port = process.env.PORT || 8000;
 app.listen(port, () => console.log(`Server is running on port ${port}`));

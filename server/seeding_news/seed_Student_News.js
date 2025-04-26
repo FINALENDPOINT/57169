@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Student_News_Schema = require("../models/news");
+const Student_News_Schema = require("../models/StudentNews_Models");
 
 // https://raw.githubusercontent.com/farhandwk/UnteyoNews/6bcabf9486b290a4c32087e213e09383d5241e59/fajar.png
 
