@@ -7,9 +7,6 @@ router.get("/category", async (req, res) => {
   // // Jika kategori diberikan, filter berita berdasarkan kategori (dikonversi ke lowercase untuk konsistensi)
   const query = category ? { kategori: category.toLowerCase() } : {};
 
-  // console.log(`nilai kategory:${category}`)
-  // console.log(`nilai kategori:${query}`)
-
   try {
     const newsData = await News.find(query);
     res.json(newsData);

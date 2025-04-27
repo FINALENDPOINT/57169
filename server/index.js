@@ -14,6 +14,7 @@ app.use(express.json());
 
 app.use("/", require("./routes/authRoutes"));
 app.use("/", require("./routes/newsRouter"))
+app.use("/", require("./routes/youtubeRouter"))
 
 const Student_News_Seed = require("./seeding_news/seed_Student_News")
 app.use("/StudentNews", Student_News_Seed)
@@ -23,6 +24,8 @@ app.use("/StudentNews", require("./routes/newsRouter_Article"))
 
 const Youtube_seed = require("./seeding_news/seed_Youtube")
 app.use("/Youtube", Youtube_seed)
+app.use("/Youtube", require("./routes/youtubeRouter_Category"))
+app.use("/Youtube", require("./routes/youtubeRouter_Article"))
 
 const port = process.env.PORT || 8000;
 app.listen(port, () => console.log(`Server is running on port ${port}`));

@@ -17,7 +17,6 @@ const Breadcrumb = () => {
     <nav aria-label="breadcrumb">
       <ol className="breadcrum flex flex-row">
         {pathnames.length === 0 ? (
-          // Jika pathnames kosong (Home), hanya tampilkan 'Home'
           <li className="breadcrumb-item active" aria-current="page">
             Home
           </li>
