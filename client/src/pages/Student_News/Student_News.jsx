@@ -23,13 +23,8 @@ function Student_News() {
   
 
   useEffect(() => {
-  const endpoint =
-  category && category.trim() !== ""
-    ? `http://localhost:8000/StudentNews/category?category=${category.toLowerCase()}`
-    : `http://localhost:8000/StudentNews/category`;
-
     axios
-    .get(endpoint)
+    .get(`http://localhost:8000/StudentNews`)
     .then((response) => {
       setNews(response.data)
       setLoading(false)

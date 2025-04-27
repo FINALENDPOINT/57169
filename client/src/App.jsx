@@ -10,6 +10,8 @@ import StudentNews_Category from "./pages/Student_News/StudentNews_Category";
 import Suara_Unteyo_Mahasiswa from "./pages/Suara_Unteyo_Mahasiswa/Suara_Unteyo_Mahasiswa"
 import Student_News_Article from "./pages/Student_News/Student_News_Article"
 import Youtube from "./pages/Youtube/Youtube"
+import Youtube_Category from "./pages/Youtube/Youtube_Category"
+import Youtube_Article from "./pages/Youtube/Youtube_Article"
 import axios from "axios";
 import { Toaster } from "react-hot-toast";
 
@@ -34,8 +36,11 @@ function App() {
         <Route path="/StudentNews/:category" element={<StudentNews_Category/>}></Route>
         <Route path="/StudentNews/:category/:title" element={<Student_News_Article/>}></Route>
         <Route path="/SuaraUnteyo&Mahasiswa" element={<Suara_Unteyo_Mahasiswa/>}></Route>
-        <Route path="/Youtube" element={<Youtube/>}></Route>
         {/* StudentNews */}
+        {/* Youtube */}
+        <Route path="/Youtube" element={<Youtube/>}></Route>
+        <Route path="/Youtube/:category" element={<Youtube_Category/>}></Route>
+        <Route path="/Youtube/:category/:title" element={<Youtube_Article/>}></Route>
       </Routes>
     </>
   );

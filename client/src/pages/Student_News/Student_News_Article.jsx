@@ -4,7 +4,6 @@ import axios from "axios"
 
 function Student_News_Article() {
     const { title } = useParams()
-    const { category } = useParams()
     const [article, setArticle] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
