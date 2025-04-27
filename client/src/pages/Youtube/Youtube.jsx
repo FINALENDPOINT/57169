@@ -24,7 +24,7 @@ function Youtube() {
 
   useEffect(() => {
     axios
-    .get(`http://localhost:8000/Youtube`)
+    .get(`https://server.unteyojourney.myhost.id/Youtube`)
     .then((response) => {
       setContent(response.data)
       setLoading(false)

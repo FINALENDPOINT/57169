@@ -16,7 +16,7 @@ function Student_News_Article() {
         }
 
         axios
-        .get(`http://localhost:8000/StudentNews/article?title=${encodeURIComponent(title)}`)
+        .get(`https://server.unteyojourney.myhost.id/StudentNews/article?title=${encodeURIComponent(title)}`)
         .then((response) => {
             setArticle(response.data)
             setLoading(false)

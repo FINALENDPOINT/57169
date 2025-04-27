@@ -17,7 +17,7 @@ function Youtube_Article() {
         }
 
         axios
-        .get(`http://localhost:8000/Youtube/article?title=${encodeURIComponent(title)}`)
+        .get(`https://server.unteyojourney.myhost.id/Youtube/article?title=${encodeURIComponent(title)}`)
         .then((response) => {
             setArticle(response.data)
             setLoading(false)
