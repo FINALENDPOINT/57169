@@ -9,8 +9,24 @@ mongoose
   .then(() => console.log("Berhasil terkoneksi ke database"))
   .catch((err) => console.error("Gagal terkoneksi ke database:", err));
 
-app.use(cors());
+// app.use(cors());
 app.use(express.json());
+
+app.use(cors({
+  origin: 'http://news.unteyojourney.myhost.id', // Atur origin sesuai kebutuhan
+  credentials: true // Jika menggunakan cookie
+}));
+
+app.use((req, res, next) => {
+  // Allow requests from https://news.unteyojourney.myhost.id/
+  res.header('Access-Control-Allow-Origin', 'https://news.unteyojourney.myhost.id');
+  // Alternatively, allow all origins (less secure)
+  // res.header('Access-Control-Allow-Origin', '*');
+  // You might also need to set allowed methods and headers
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
 
 app.use("/", require("./routes/authRoutes"));
 app.use("/", require("./routes/newsRouter"))

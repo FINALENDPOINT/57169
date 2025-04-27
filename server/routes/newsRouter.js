@@ -1,8 +1,9 @@
 const express = require("express")
 const router = express.Router()
 const News = require("../models/StudentNews_Models")
+const cors = require("cors")
 
-router.get('/StudentNews', async (req, res) => {
+router.get('/StudentNews', cors({ origin: 'https://news.unteyojourney.myhost.id' }), async (req, res) => {
   try {
     const student_news = await News.find()
     res.status(200).json(student_news)
