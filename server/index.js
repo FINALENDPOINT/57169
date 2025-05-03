@@ -9,7 +9,7 @@ mongoose
   .then(() => console.log("Berhasil terkoneksi ke database"))
   .catch((err) => console.error("Gagal terkoneksi ke database:", err));
 
-app.use(cors());
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 
 app.use("/", require("./routes/authRoutes"));

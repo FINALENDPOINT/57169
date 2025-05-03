@@ -15,7 +15,7 @@ import Youtube_Article from "./pages/Youtube/Youtube_Article"
 import axios from "axios";
 import { Toaster } from "react-hot-toast";
 
-axios.defaults.baseURL = "http://localhost:8000";
+axios.defaults.baseURL = "http://backend.unteyojourney.myhost.id";
 axios.defaults.withCredentials = true;
 
 function App() {
