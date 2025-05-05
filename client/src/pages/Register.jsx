@@ -31,7 +31,7 @@ export default function Register() {
         userName,
         email,
         password,
-        jenisKelamin,     
+        jenisKelamin,
         alamat,
         pekerjaan,
       });
