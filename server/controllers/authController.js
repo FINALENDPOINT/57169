@@ -124,7 +124,7 @@ const forgotPassword = async (req, res) => {
     // Generate token
     const token = crypto.randomBytes(32).toString("hex");
     user.resetToken = token;
-    user.resetTokenExpiry = Date.now() + 3600000; 
+    user.resetTokenExpiry = Date.now() + 3600000;
     await user.save();
 
     const transporter = nodemailer.createTransport({
@@ -133,7 +133,7 @@ const forgotPassword = async (req, res) => {
         user: process.env.EMAIL_FROM,
         pass: process.env.EMAIL_PASS,
       },
-      debug: true, 
+      debug: true,
     });
 
     transporter.verify(function (error, success) {

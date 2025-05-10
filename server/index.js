@@ -2,13 +2,9 @@ const express = require("express");
 require("dotenv").config();
 const cors = require("cors");
 const mongoose = require("mongoose");
-const app = express();
 
-// Connect to MongoDB with error handling
-mongoose
-  .connect(process.env.MONGODB_URI)
-  .then(() => console.log("Berhasil terkoneksi ke database"))
-  .catch((err) => console.error("Gagal terkoneksi ke database:", err));
+const app = express();
+const db = require("./config/database");
 
 // Middleware
 app.use(
@@ -17,14 +13,15 @@ app.use(
     credentials: true,
   })
 );
-
 app.use(express.json());
 
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ error: "Terjadi kesalahan pada server" });
-});
+// Connect to MongoDB
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => console.log("Berhasil terkoneksi ke MongoDB"))
+  .catch((err) => console.error("Gagal terkoneksi ke MongoDB:", err));
+
+// Tidak perlu db.connect() untuk MySQL jika pakai pool!
 
 // Routes
 app.use("/", require("./routes/authRoutes"));
@@ -41,6 +38,11 @@ app.use("/Youtube", Youtube_seed);
 app.use("/Youtube", require("./routes/youtubeRouter_Category"));
 app.use("/Youtube", require("./routes/youtubeRouter_Article"));
 
-// Start server
+// Error handling
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: "Terjadi kesalahan pada server" });
+});
+
 const port = process.env.PORT || 8000;
-app.listen(port, () => console.log(`Server is running on port ${port}`));
+app.listen(port, () => console.log(`Server berjalan di port ${port}`));

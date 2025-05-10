@@ -8,18 +8,19 @@ const {
   forgotPassword,
   resetPassword,
 } = require("../controllers/authController");
+const { register } = require("../controllers/authSqlController");
 
 // Middleware
-router.use(
-  cors({
-    credentials: true,
-    origin: "*",
-  })
-);
+// router.use(
+//   cors({
+//     credentials: true,
+//     origin: "5173",
+//   })
+// );
 
 router.get("/", test);
-router.post("/register", registerUser);
-router.post("/login", loginUser);
+router.post("/register", register);
+// router.post("/login", login);
 router.post("/forgotPassword", forgotPassword);
 router.post("/resetPassword/:token", resetPassword);
 
