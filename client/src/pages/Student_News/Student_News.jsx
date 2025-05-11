@@ -17,8 +17,8 @@ function Student_News() {
 
   const navigate = useNavigate();
 
-  const handleArticleCLick = (category, title) => {
-    navigate(`/StudentNews/${category}/${title}`)
+  const handleArticleCLick = (category, slug) => {
+    navigate(`/StudentNews/${category}/${slug}`)
 }
   
 
@@ -45,7 +45,7 @@ function Student_News() {
       <div className='flex flex-row w-[auto] h-[auto] overflow-x-scroll'>
       {news.map((item, index) => (
         <li key={index} className="flex flex-row w-[500px] shrink-[0]"
-        onClick={() => handleArticleCLick(item.kategori, item.judul)}
+        onClick={() => handleArticleCLick(item.kategori, item.slug)}
         style={{cursor: "pointer"}}
         >
           <img src={item.gambar} className='w-[100px] h-[100px]'></img>

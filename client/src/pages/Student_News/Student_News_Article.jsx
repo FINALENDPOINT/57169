@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import axios from "axios"
+import StudentNews_Comment from './StudentNews_Comment';
+import StudentNews_AddComment from './StudentNews_AddComment';
 
 function Student_News_Article() {
     const { title } = useParams()
@@ -16,7 +18,7 @@ function Student_News_Article() {
         }
 
         axios
-        .get(`http://localhost:8000/StudentNews/article?title=${encodeURIComponent(title)}`)
+        .get(`http://localhost:8000/StudentNews/article?slug=${title}`)
         .then((response) => {
             setArticle(response.data)
             setLoading(false)
@@ -25,6 +27,15 @@ function Student_News_Article() {
             setError(err.response?.data?.mesaage || err.message)
         })
     }, [title])
+
+    const handleCommentAdded = () => {
+        // Paksa ArticleComments untuk melakukan refetch data
+        // Kita bisa menggunakan state atau ref untuk memicu ini
+        setShouldRefetchComments(prev => !prev);
+    };
+
+    const [shouldRefetchComments, setShouldRefetchComments] = useState(false);
+
 
     if (loading) return <h4>Loading...</h4>;
     if (error) return <h4>Error: {error}</h4>;
@@ -39,6 +50,8 @@ function Student_News_Article() {
           <p>{article.teks}</p>
         </div>
       )}
+      <StudentNews_AddComment shouldRefetch={shouldRefetchComments} slug={title}/>
+      <StudentNews_Comment onCommentAdded={handleCommentAdded}/>
     </div>
   )
 }
