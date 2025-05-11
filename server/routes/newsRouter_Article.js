@@ -5,21 +5,34 @@ const db = require("../config/database"); // Pastikan path ke koneksi database M
 
 // Endpoint untuk mendapatkan artikel berdasarkan slug (menggunakan req.query)
 router.get("/article", async (req, res) => {
-  const slug = req.query.slug;
-  console.log("nilai slug adalah " + slug);
-  try {
-    if (!slug) {
-      return res.status(400).json({ message: "Slug is required" });
+    const slug = req.query.slug;
+    console.log("nilai slug adalah " + slug);
+    try {
+        const article = await News.findOne({ slug: slug }); // Cari artikel berdasarkan field slug
+        if (!article) {
+            return res.status(404).json({ message: `Artikel dengan slug ${slug} tidak ditemukan` });
+        }
+
+        try {
+            try {
+                const [popularity] = await db.execute(
+                    'SELECT likes, dislikes, shares FROM popularity_StudentNews WHERE article_slug = ?',
+                    [slug]
+                );
+                const articleWithPopularity = { ...article.toObject(), popularity: popularity[0] || { likes: 0, dislikes: 0, shares: 0 } };
+                res.status(200).json(articleWithPopularity);
+            } catch (error) {
+                console.error('Error mengambil popularitas:', error);
+                return res.status(500).json({ message: 'Gagal mengambil data popularitas' });
+            }
+        } catch (error) {
+            console.error(`Error saat mencari artikel berdasarkan slug ${error}`);
+            return res.status(500).json({ message: "Terjadi kesalahan pada server." });
+        }
+    } catch (error) {
+        console.error(`Error pada endpoint /article: ${error}`);
+        return res.status(500).json({ message: "Terjadi kesalahan pada server." });
     }
-    const article = await News.findOne({ slug: slug }); // Cari artikel berdasarkan field slug
-    if (!article) {
-      return res.status(404).json({ message: `Artikel dengan slug ${slug} tidak ditemukan` });
-    }
-    res.status(200).json(article);
-  } catch (error) {
-    console.error(`Error saat mencari artikel berdasarkan slug ${error}`);
-    res.status(500).json({ message: "Terjadi kesalahan pada server." });
-  }
 });
 
 // Endpoint untuk mendapatkan komentar berdasarkan slug (menggunakan req.query)
@@ -75,6 +88,67 @@ router.post("/article/comments", async (req, res) => {
         console.error('Error saat menambahkan komentar:', error);
         res.status(500).json({ message: 'Terjadi kesalahan saat menyimpan komentar.' });
     } finally {
+    }
+});
+
+// Endpoint untuk menyukai artikel
+router.post("/article/like", async (req, res) => {
+    const { slug } = req.query;
+    try {
+        const [result] = await db.execute(
+            'UPDATE popularity_StudentNews SET likes = likes + 1 WHERE article_slug = ?',
+            [slug]
+        );
+        if (result.affectedRows > 0) {
+            res.status(200).json({ message: 'Artikel disukai' });
+        } else {
+            res.status(404).json({ message: 'Data popularitas artikel tidak ditemukan' });
+        }
+    } catch (error) {
+        console.error('Error saat menyukai artikel:', error);
+        res.status(500).json({ message: 'Terjadi kesalahan saat menyukai artikel' });
+    } finally {
+    }
+});
+
+// Endpoint untuk tidak menyukai artikel
+router.post("/article/dislike", async (req, res) => {
+    const { slug } = req.query;
+    try {
+        const [result] = await db.execute(
+            'UPDATE popularity_StudentNews SET dislikes = dislikes + 1 WHERE article_slug = ?',
+            [slug]
+        );
+        if (result.affectedRows > 0) {
+            res.status(200).json({ message: 'Artikel tidak disukai' });
+        } else {
+            res.status(404).json({ message: 'Data popularitas artikel tidak ditemukan' });
+        }
+    } catch (error) {
+        console.error('Error saat tidak menyukai artikel:', error);
+        res.status(500).json({ message: 'Terjadi kesalahan saat tidak menyukai artikel' });
+    } finally {
+    }
+});
+
+// Endpoint untuk membagikan artikel
+router.post("/article/share", async (req, res) => {
+    const { slug } = req.query;
+    try {
+        const [result] = await db.execute(
+            'UPDATE popularity_StudentNews SET shares = shares + 1 WHERE article_slug = ?',
+            [slug]
+        );
+        if (result.affectedRows > 0) {
+            res.status(200).json({ message: 'Artikel dibagikan' });
+        } else {
+            res.status(404).json({ message: 'Data popularitas artikel tidak ditemukan' });
+        }
+    } catch (error) {
+        console.error('Error saat membagikan artikel:', error);
+        res.status(500).json({ message: 'Terjadi kesalahan saat membagikan artikel' });
+    } finally {
+        
     }
 });
 

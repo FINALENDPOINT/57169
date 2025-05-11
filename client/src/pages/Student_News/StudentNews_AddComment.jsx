@@ -7,7 +7,7 @@ function AddComment({ onCommentAdded }) {
     const [newComment, setNewComment] = useState('');
     const [commentError, setCommentError] = useState('');
 
-    const handleCommentChange = (event) => {
+   const handleCommentChange = (event) => {
         setNewComment(event.target.value);
         setCommentError('');
     };
@@ -30,13 +30,9 @@ function AddComment({ onCommentAdded }) {
                 console.log('Komentar berhasil ditambahkan:', response.data);
                 // Kirim kembali data komentar yang (mungkin) dikembalikan oleh server
                 // Jika server tidak mengembalikan data lengkap, kita bisa membuat objek sementara
-                const newCommentData = {
-                    comment_text: newComment,
-                    user_id: 1, // Asumsi userId
-                    created_at: new Date().toISOString(), // Buat timestamp di klien
-                    id: response.data.commentId // Jika server mengembalikan ID komentar
-                };
-                onCommentAdded(newCommentData);
+                if (onCommentAdded) {
+                    onCommentAdded();
+                }
             } else {
                 setCommentError('Gagal menambahkan komentar.');
                 console.error('Gagal menambahkan komentar:', response.data);

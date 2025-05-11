@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
-function StudentNews_Comment() {
+function StudentNews_Comment({ shouldRefetch }) {
     const { title } = useParams()
     const [comments, setComments] = useState([]);
     const [loadingComments, setLoadingComments] = useState(true);
@@ -22,7 +22,7 @@ function StudentNews_Comment() {
         };
 
         fetchComments();
-    }, [title]);
+    }, [title, shouldRefetch]);
     
     if (loadingComments) {
         return <p>Loading comments...</p>;
