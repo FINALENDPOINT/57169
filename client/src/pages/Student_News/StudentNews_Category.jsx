@@ -20,7 +20,7 @@ function StudentNews_Category() {
 
     useEffect(() => {
         axios
-        .get(`https://backend.unteyojourney.myhost.id/StudentNews/category?category=${category.toLocaleLowerCase()}`)
+        .get(`http://localhost:8000/StudentNews/category?category=${category.toLocaleLowerCase()}`)
         .then((response) => {
             setNews(response.data)
             setLoading(false)

@@ -20,7 +20,7 @@ function Youtube_Category() {
 
     useEffect(() => {
         axios
-        .get(`https://backend.unteyojourney.myhost.id/Youtube/category?category=${category}`)
+        .get(`http://localhost:8000/Youtube/category?category=${category}`)
         .then((response) => {
             setContent(response.data)
             setLoading(false)
