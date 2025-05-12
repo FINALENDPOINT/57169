@@ -9,11 +9,11 @@ export default function Login() {
     userName: "",
     password: "",
   });
-  const loginUser = async (e) => {
+  const loginAuthor = async (e) => {
     e.preventDefault();
     const { userName, password } = data;
     try {
-      const { data } = await axios.post("http://localhost:8000/login", {
+      const { data } = await axios.post("/loginAuthor", {
         userName,
         password,
       });
@@ -21,7 +21,7 @@ export default function Login() {
         toast.error(data.error);
       } else {
         setData({});
-        navigate("/");
+        navigate("/dashboard-author");
         toast.success("Login berhasil!");
       }
     } catch (error) {
@@ -32,7 +32,7 @@ export default function Login() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <form
-        onSubmit={loginUser}
+        onSubmit={loginAuthor}
         className="bg-white shadow-md rounded-lg p-6 w-full max-w-md"
       >
         <h2 className="text-2xl font-bold text-center mb-4">Masuk Akun</h2>

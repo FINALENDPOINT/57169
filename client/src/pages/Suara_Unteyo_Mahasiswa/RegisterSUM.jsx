@@ -10,15 +10,12 @@ export default function Register() {
     userName: "",
     email: "",
     password: "",
-    jenisKelamin: "",
-    alamat: "",
-    pekerjaan: "",
   });
 
-  const registerUser = async (e) => {
+  const registerAuthor = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/register", data);
+      const response = await axios.post("/registerAuthor", data);
 
       toast.success(response.data.message || "Berhasil mendaftar!");
       setData({
@@ -26,11 +23,8 @@ export default function Register() {
         userName: "",
         email: "",
         password: "",
-        jenisKelamin: "",
-        alamat: "",
-        pekerjaan: "",
       });
-      navigate("/login");
+      navigate("/loginAuthor");
     } catch (error) {
       const errorMessage = error.response?.data?.error || "Terjadi kesalahan";
       toast.error(errorMessage);
@@ -40,10 +34,12 @@ export default function Register() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <form
-        onSubmit={registerUser}
+        onSubmit={registerAuthor}
         className="bg-white shadow-md rounded-lg p-6 w-full max-w-md"
       >
-        <h2 className="text-2xl font-bold text-center mb-4">Daftar Akun</h2>
+        <h2 className="text-2xl font-bold text-center mb-4">
+          Join Sebagai Penulis
+        </h2>
 
         <label className="block mb-2">Nama Lengkap</label>
         <input
@@ -63,15 +59,6 @@ export default function Register() {
           className="w-full p-2 border border-gray-300 rounded mb-4"
         />
 
-        <label className="block mb-2">Email</label>
-        <input
-          type="email"
-          required
-          value={data.email}
-          onChange={(e) => setData({ ...data, email: e.target.value })}
-          className="w-full p-2 border border-gray-300 rounded mb-4"
-        />
-
         <label className="block mb-2">Password</label>
         <input
           type="password"
@@ -80,37 +67,6 @@ export default function Register() {
           onChange={(e) => setData({ ...data, password: e.target.value })}
           className="w-full p-2 border border-gray-300 rounded mb-4"
         />
-
-        <label className="block mb-2">Jenis Kelamin</label>
-        <select
-          required
-          value={data.jenisKelamin}
-          onChange={(e) => setData({ ...data, jenisKelamin: e.target.value })}
-          className="w-full p-2 border border-gray-300 rounded mb-4"
-        >
-          <option value="">Pilih Jenis Kelamin</option>
-          <option value="laki-laki">Laki-laki</option>
-          <option value="perempuan">Perempuan</option>
-        </select>
-
-        <label className="block mb-2">Alamat</label>
-        <input
-          type="text"
-          required
-          value={data.alamat}
-          onChange={(e) => setData({ ...data, alamat: e.target.value })}
-          className="w-full p-2 border border-gray-300 rounded mb-4"
-        />
-
-        <label className="block mb-2">Pekerjaan</label>
-        <input
-          type="text"
-          required
-          value={data.pekerjaan}
-          onChange={(e) => setData({ ...data, pekerjaan: e.target.value })}
-          className="w-full p-2 border border-gray-300 rounded mb-4"
-        />
-
         <button
           type="submit"
           className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition"

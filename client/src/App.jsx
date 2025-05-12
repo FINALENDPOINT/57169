@@ -8,6 +8,9 @@ import Login from "./pages/Login";
 import Student_News from "./pages/Student_News/Student_News";
 import StudentNews_Category from "./pages/Student_News/StudentNews_Category";
 import Suara_Unteyo_Mahasiswa from "./pages/Suara_Unteyo_Mahasiswa/Suara_Unteyo_Mahasiswa";
+import RegisterAuthor from "./pages/Suara_Unteyo_Mahasiswa/RegisterSUM";
+import LoginAuthor from "./pages/Suara_Unteyo_Mahasiswa/LoginSUM";
+import DashboardAuthor from "./pages/Suara_Unteyo_Mahasiswa/DashboardSUM";
 import Student_News_Article from "./pages/Student_News/Student_News_Article";
 import Youtube from "./pages/Youtube/Youtube";
 import Youtube_Category from "./pages/Youtube/Youtube_Category";
@@ -53,6 +56,9 @@ function App() {
           path="/SuaraUnteyo&Mahasiswa"
           element={<Suara_Unteyo_Mahasiswa />}
         />
+        <Route path="/registerAuthor" element={<RegisterAuthor />} />
+        <Route path="/loginAuthor" element={<LoginAuthor />} />
+        <Route path="/dashboard-author" element={<DashboardAuthor />} />
         {/* Youtube */}
         <Route path="/Youtube" element={<Youtube />} />
         <Route path="/Youtube/:category" element={<Youtube_Category />} />
