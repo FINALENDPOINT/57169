@@ -17,23 +17,24 @@ function Student_News() {
 
   const navigate = useNavigate();
 
-  const handleArticleCLick = (category, title) => {
-    navigate(`/StudentNews/${category}/${title}`);
-  };
+  const handleArticleCLick = (category, slug) => {
+    navigate(`/StudentNews/${category}/${slug}`)
+}
+  
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8000/StudentNews`)
-      .then((response) => {
-        setNews(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        setError(error.response);
-        setLoading(false);
-      });
-  }, [category]);
-
+    .get(`https://backend.unteyojourney.myhost.id/StudentNews`)
+    .then((response) => {
+      setNews(response.data)
+      setLoading(false)
+    })
+    .catch((error) => {
+      setError(error.response)
+      setLoading(false)
+    })
+  }, [category])
+    
   if (loading) return <h4>Loading...</h4>;
   if (error) return <h4>Error: {error}</h4>;
 
@@ -41,23 +42,21 @@ function Student_News() {
     <div>
       <Student_News_Navbar />
       <h1>{category}</h1>
-      <div className="flex flex-row w-[auto] h-[auto] overflow-x-scroll">
-        {news.map((item, index) => (
-          <li
-            key={index}
-            className="flex flex-row w-[500px] shrink-[0]"
-            onClick={() => handleArticleCLick(item.kategori, item.judul)}
-            style={{ cursor: "pointer" }}
-          >
-            <img src={item.gambar} className="w-[100px] h-[100px]"></img>
-            <div>
-              <h3 className="text-[20px]">{item.judul}</h3>
-              <p>{item.kategori}</p>
-              <p>{item.tanggal}</p>
-            </div>
-          </li>
-        ))}
-      </div>
+      <div className='flex flex-row w-[auto] h-[auto] overflow-x-scroll'>
+      {news.map((item, index) => (
+        <li key={index} className="flex flex-row w-[500px] shrink-[0]"
+        onClick={() => handleArticleCLick(item.kategori, item.judul)}
+        style={{cursor: "pointer"}}
+        >
+          <img src={item.gambar} className='w-[100px] h-[100px]'></img>
+          <div>
+            <h3 className='text-[20px]'>{item.judul}</h3>
+            <p>{item.kategori}</p>
+            <p>{item.tanggal}</p>
+          </div>
+        </li>
+      ))}
+    </div>
     </div>
   );
 }

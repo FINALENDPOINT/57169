@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const slugify = require("slugify")
+const db = require("../config/database")
 const Student_News_Schema = require("../models/StudentNews_Models");
-
-// https://raw.githubusercontent.com/farhandwk/UnteyoNews/6bcabf9486b290a4c32087e213e09383d5241e59/fajar.png
 
 router.get('/seed', async (req, res) => {
     const sampleSeed = [
@@ -99,29 +99,41 @@ router.get('/seed', async (req, res) => {
       ]
       
 
-try {
-    const existingNews = await Student_News_Schema.findOne({judul: sampleSeed.judul})
-    const newNews = await Student_News_Schema.insertMany(sampleSeed)
+async function generateUniqueSlug(baseSlug) {
+  let slug = baseSlug;
+  let counter = 1;
+  while (true) {
+    const existingNews = await Student_News_Schema.findOne({ slug });
+    if (!existingNews) {
+      return slug;
+    }
+    slug = `${baseSlug}-${counter}`;
+    counter++;
+  }
+}
 
-    if (existingNews) {
-        return res.status(200).json({
-            message: "Existing Student News Berhasil",
-            data: existingNews
-        })
+async function seedDatabase() {
+  try {
+    for (const data of sampleSeed) {
+      const baseSlug = slugify(data.judul, { lower: true });
+      const uniqueSlug = await generateUniqueSlug(baseSlug);
+
+      const article = new Student_News_Schema({ ...data, slug: uniqueSlug });
+      await article.save();
+      console.log(`Artikel dengan judul "${data.judul}" berhasil disimpan dengan slug: ${uniqueSlug}`);
+    
+      db.execute(`
+          INSERT INTO popularity_StudentNews (article_slug) VALUES (?)
+        `, [uniqueSlug])
+      console.log(`Data popularitas untuk slug "${uniqueSlug}" berhasil ditambahkan.`);
     }
-    else {
-        return res.status(201).json({
-            message: "New Student News Berhasil",
-            data: newNews
-        })
-    }
+    console.log('Proses seeding data berita selesai.');
+  } catch (error) {
+    console.error('Gagal melakukan seeding data:', error);
+  } 
 }
-catch (error) {
-    res.status(500).json({
-        message: "Error seeding student news gagal",
-        data: error.message
-    })
-}
+
+seedDatabase();
 })
 
 module.exports = router
