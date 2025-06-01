@@ -24,7 +24,7 @@ function Student_News() {
 
   useEffect(() => {
     axios
-    .get(`https://backend.unteyojourney.myhost.id/StudentNews`)
+    .get(`http://localhost:8000/StudentNews`)
     .then((response) => {
       setNews(response.data)
       setLoading(false)
