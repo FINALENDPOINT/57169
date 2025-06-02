@@ -2,7 +2,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const db = require("../config/database");
 
-const JWT_SECRET = process.env.JWT_SECRET || "terasiBalap";
+const JWT_SECRET = process.env.JWT_SECRET;
 
 const login = async (req, res) => {
   try {
@@ -30,6 +30,8 @@ const login = async (req, res) => {
       return res.status(401).json({ error: "username atau password salah" });
     }
 
+    console.log("authlogin",JWT_SECRET)
+
     const token = jwt.sign(
       {
         userId: user.id,
@@ -39,6 +41,7 @@ const login = async (req, res) => {
       JWT_SECRET,
       { expiresIn: "24h" }
     );
+    console.log("token", token)
 
     res.status(200).json({
       message: "Login berhasil",
