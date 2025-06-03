@@ -28,53 +28,101 @@ router.get('/profile', protect, async (req, res) => {
 });
 
 // @desc    Memperbarui profil pengguna yang sedang login
-// @route   PUT /api/users/profile (atau /profile)
+// @route   PUT /profile (atau /api/users/profile)
 // @access  Protected
 router.put('/profile', protect, async (req, res) => {
     try {
-        // Ambil instance user dari database menggunakan ID dari token (via req.user)
-        // Ini memastikan kita bekerja dengan instance Sequelize yang "hidup"
-        const user = await User.findByPk(req.user.id);
+        const userId = req.user.id; // ID pengguna dari token (via middleware protect)
+        const { namalengkap, email, jenisKelamin, alamat, pekerjaan, userName } = req.body;
 
-        if (user) {
-            // Update field yang diizinkan dari req.body
-            // Jika req.body.<field> tidak ada, maka nilai lama user.<field> akan tetap digunakan.
-            user.namalengkap = req.body.namalengkap || user.namalengkap;
-            user.email = req.body.email || user.email; // Pertimbangkan validasi email unik jika diubah
-            user.jenisKelamin = req.body.jenisKelamin || user.jenisKelamin;
-            user.alamat = req.body.alamat || user.alamat;
-            user.pekerjaan = req.body.pekerjaan || user.pekerjaan;
-            // user.userName = req.body.userName || user.userName; // Hati-hati jika mengizinkan perubahan userName, pastikan unik.
+        // Kumpulkan field yang akan diupdate dan nilainya
+        const fieldsToUpdate = [];
+        const valuesToUpdate = [];
 
-            // Jika Anda mengizinkan perubahan password di sini, itu perlu penanganan khusus
-            // dengan hashing (bcrypt) seperti saat registrasi, dan field password lama mungkin diperlukan.
+        // Cek setiap field yang mungkin dikirim dari req.body
+        // Hanya tambahkan ke query jika field tersebut ada di req.body
+        if (namalengkap !== undefined) {
+            fieldsToUpdate.push("namalengkap = ?");
+            valuesToUpdate.push(namalengkap);
+        }
+        if (email !== undefined) {
+            fieldsToUpdate.push("email = ?");
+            valuesToUpdate.push(email);
+            // PERTIMBANGAN: Tambahkan validasi format email di sini
+            // PERTIMBANGAN: Tangani error jika email sudah digunakan (unique constraint di DB)
+        }
+        if (jenisKelamin !== undefined) {
+            fieldsToUpdate.push("jenisKelamin = ?");
+            valuesToUpdate.push(jenisKelamin);
+        }
+        if (alamat !== undefined) {
+            fieldsToUpdate.push("alamat = ?");
+            valuesToUpdate.push(alamat);
+        }
+        if (pekerjaan !== undefined) {
+            fieldsToUpdate.push("pekerjaan = ?");
+            valuesToUpdate.push(pekerjaan);
+        }
+        if (userName !== undefined) {
+            fieldsToUpdate.push("userName = ?");
+            valuesToUpdate.push(userName);
+            // PERTIMBANGAN: Tangani error jika userName sudah digunakan (unique constraint di DB)
+        }
 
-            const updatedUser = await user.save(); // Simpan perubahan ke database
+        // Jika tidak ada field yang dikirim untuk diupdate
+        if (fieldsToUpdate.length === 0) {
+            return res.status(400).json({ message: 'Tidak ada data untuk diperbarui.' });
+        }
 
-            res.json({
-                id: updatedUser.id,
-                userName: updatedUser.userName,
-                email: updatedUser.email,
-                namalengkap: updatedUser.namalengkap,
-                jenisKelamin: updatedUser.jenisKelamin,
-                alamat: updatedUser.alamat,
-                pekerjaan: updatedUser.pekerjaan,
-                message: 'Profil berhasil diperbarui'
+        // Tambahkan userId ke akhir array values untuk klausa WHERE
+        valuesToUpdate.push(userId);
+
+        // Buat query UPDATE SQL
+        const setClause = fieldsToUpdate.join(', '); // Contoh: "namalengkap = ?, email = ?"
+        const updateQuery = `UPDATE users SET ${setClause} WHERE id = ?`;
+
+        const [result] = await db.execute(updateQuery, valuesToUpdate);
+
+        if (result.affectedRows === 0) {
+            // Ini bisa terjadi jika ID pengguna tidak ditemukan (meskipun middleware sudah mengecek),
+            // atau jika tidak ada data yang benar-benar berubah (beberapa DB mengembalikan affectedRows 0 jika nilai sama).
+            // Kita akan tetap mencoba mengambil data user untuk memastikan.
+            const [checkUserRows] = await db.execute("SELECT id, userName, email, namalengkap, jenisKelamin, alamat, pekerjaan FROM users WHERE id = ?", [userId]);
+            if (checkUserRows.length === 0) {
+                 return res.status(404).json({ message: 'User tidak ditemukan untuk diperbarui.' });
+            }
+            // Jika user ada tapi affectedRows = 0, mungkin karena tidak ada perubahan data
+            return res.json({
+                message: 'Tidak ada data yang diubah, atau profil sudah sesuai.',
+                user: checkUserRows[0]
             });
-        } else {
-            // Seharusnya tidak terjadi jika middleware protect bekerja dengan benar
-            // dan user tidak dihapus setelah token dibuat.
-            res.status(404).json({ message: 'User tidak ditemukan untuk diperbarui' });
         }
+
+        // Ambil data pengguna yang sudah diperbarui untuk dikirim sebagai respons (tanpa password)
+        const [updatedUserRows] = await db.execute(
+            "SELECT id, userName, email, namalengkap, jenisKelamin, alamat, pekerjaan FROM users WHERE id = ?",
+            [userId]
+        );
+
+        // Seharusnya selalu ada jika affectedRows > 0
+        if (updatedUserRows.length === 0) {
+             return res.status(404).json({ message: 'User tidak ditemukan setelah proses pembaruan.' });
+        }
+
+        res.json({
+            message: 'Profil berhasil diperbarui',
+            user: updatedUserRows[0]
+        });
+
     } catch (error) {
-        console.error("Error saat update profile:", error.name, '-', error.message);
-        // Tangani kemungkinan error validasi dari Sequelize (misalnya email duplikat jika ada constraint unique)
-        if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
-            // Mengambil pesan error yang lebih mudah dibaca dari Sequelize
-            const messages = error.errors.map(e => e.message);
-            return res.status(400).json({ message: 'Data tidak valid', errors: messages });
+        console.error("Error saat update profile:", error.name, '-', error.message, error.code);
+        // Tangani error spesifik MySQL, misalnya ER_DUP_ENTRY untuk unique constraint
+        if (error.code === 'ER_DUP_ENTRY') {
+            // Pesan ini bisa lebih spesifik jika Anda tahu field mana yang menyebabkan duplikasi
+            // misalnya dengan memeriksa error.message.includes('email') atau error.message.includes('userName')
+            return res.status(400).json({ message: 'Gagal memperbarui profil. Email atau Username mungkin sudah digunakan oleh pengguna lain.' });
         }
-        res.status(500).json({ message: 'Terjadi kesalahan pada server saat memperbarui profil' });
+        res.status(500).json({ message: 'Terjadi kesalahan pada server saat memperbarui profil.' });
     }
 });
 
